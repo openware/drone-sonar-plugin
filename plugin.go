@@ -14,15 +14,15 @@ type (
 		Host  string
 		Token string
 
-		Version        string
-		Branch         string
-		Sources        string
-		Timeout        string
-		Inclusions     string
-		Exclusions     string
-		Level          string
-		ShowProfiling  string
-		BranchAnalysis bool
+		Version         string
+		Branch          string
+		Sources         string
+		Timeout         string
+		Inclusions      string
+		Exclusions      string
+		Level           string
+		ShowProfiling   string
+		BranchAnalysis  bool
 		UsingProperties bool
 	}
 	Plugin struct {
@@ -38,7 +38,7 @@ func (p Plugin) Exec() error {
 
 	if !p.Config.UsingProperties {
 		argsParameter := []string{
-			"-Dsonar.projectKey=" + strings.Replace(p.Config.Key, "/", ":", -1),
+			"-Dsonar.projectKey=" + strings.Replace(p.Config.Key, "/", "_", -1),
 			"-Dsonar.projectName=" + p.Config.Name,
 			"-Dsonar.projectVersion=" + p.Config.Version,
 			"-Dsonar.sources=" + p.Config.Sources,
@@ -52,9 +52,8 @@ func (p Plugin) Exec() error {
 		args = append(args, argsParameter...)
 	}
 
-
 	if p.Config.BranchAnalysis {
-		args = append(args, "-Dsonar.branch.name=" + p.Config.Branch)
+		args = append(args, "-Dsonar.branch.name="+p.Config.Branch)
 	}
 
 	cmd := exec.Command("sonar-scanner", args...)
