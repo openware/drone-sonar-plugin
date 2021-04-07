@@ -1,0 +1,22 @@
+---
+kind: pipeline
+name: default
+type: docker
+
+steps:
+  - name: Build container
+    image: plugins/docker
+    settings:
+      username:
+        from_secret: quay_username
+      password:
+        from_secret: quay_password
+      repo: quay.io/openware/drone-sonar-plugin
+      registry: quay.io
+    when:
+      branch:
+        - master
+
+trigger:
+  event:
+    - push
